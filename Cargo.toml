@@ -1,0 +1,17 @@
+[package]
+name = "tokio-async-await-samples"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+ex00 = []
+ex01 = []
+ex02 = []
+ex03 = []
+ex04 = []
+ex05 = []
+ex06 = []
+ex07 = []
+
+[dependencies]
+tokio = { version = "1.49.0", features = ["full"] }

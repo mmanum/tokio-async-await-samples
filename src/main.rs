@@ -5,6 +5,8 @@ mod exercise_03;
 mod exercise_04;
 mod exercise_05;
 mod exercise_06;
+mod exercise_07a;
+mod exercise_07b;
 
 use tokio;
 
@@ -56,6 +58,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         #[cfg(feature = "ex06")]
         {
             exercise_06::run().await;
+            println!("Done!");
+        }
+
+        #[cfg(feature = "ex07a")]
+        {
+            exercise_07a::run().await;
+            println!("Done!");
+        }
+
+        #[cfg(feature = "ex07b")]
+        {
+            exercise_07b::run().await;
             println!("Done!");
         }
 

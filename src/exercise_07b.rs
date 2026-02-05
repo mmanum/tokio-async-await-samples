@@ -1,4 +1,4 @@
-use futures::FutureExt;
+use futures::{FutureExt, TryStreamExt};
 /*
 Ejercicio 7 (Nivel 7): FuturesUnordered (concurrencia dinámica)
 
@@ -16,15 +16,40 @@ use futures::stream::{FuturesUnordered, StreamExt};
 pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
     println!("Exercise_07 !!! ");
 
-    let delay_array = [300, 50, 200, 100];
+    let delay_array = [3000, 2500, 2000, 5000];
 
-    let futures = delay_array.map(|d| sleeping(d));
+    let futures_unordered = futures::stream::FuturesUnordered::new();
 
-    let mut set_futures_unordered = futures::stream::FuturesUnordered::new();
+    delay_array
+        .iter()
+        .for_each(|&d| futures_unordered.push(sleeping(d)));
 
-    set_futures_unordered.push(futures.iter());
+    let system_time = std::time::SystemTime::now();
+    println!(
+        "-----START ({})-----",
+        system_time.elapsed().unwrap().as_millis()
+    );
 
-    set_futures_unordered.into_iter().await;
+    // while let Some(result) = futures_unordered.next().await {
+    //     println!("Result: {result}");
+    // }
+
+    futures_unordered
+        .for_each(|f| async move { println!("Result: {f}") })
+        .await;
+
+    // use futures::stream::TryStreamExt;
+    // futures_unordered
+    //     .try_for_each(|result| async move {
+    //         println!("Result: {result}");
+    //         Ok::<(), std::convert::Infallible>(())
+    //     })
+    //     .await;
+
+    println!(
+        "-----END ({} ms)-----",
+        system_time.elapsed().unwrap().as_millis()
+    );
 
     println!("\n\n--- Exercise_07!!!: Fin");
     Ok(())
@@ -35,6 +60,6 @@ use tokio::time::sleep;
 
 async fn sleeping(delay: u64) -> String {
     println!("Sleep: {delay}");
-    sleep(Duration::from_secs(delay)).await;
-    "Task one completed".to_owned()
+    sleep(Duration::from_millis(delay)).await;
+    format!("Task {delay} (completed)").to_owned()
 }

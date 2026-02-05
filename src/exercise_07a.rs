@@ -14,7 +14,7 @@ Restricción
 pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
     println!("--- Exercise_07 !!! ");
 
-    let delay_array = [10, 3, 5, 2];
+    let delay_array = [3000, 2500, 2000, 5000];
 
     // delay_array.iter().map(async |delay| sleeping(*delay).await);
 

@@ -13,6 +13,9 @@ ex05 = []
 ex06 = []
 ex07a = []
 ex07b = []
+ex08 = []
+ex09a = []
+ex09b = []
 
 [dependencies]
 futures = "0.3.31"
